@@ -22,16 +22,14 @@ async function Presence(req, res){
 
 async function Novo_participante(req, res){
 
-    try{
-        
-        const qr_key = Crypt(req.body['cpf']);
-        const data = await Insert(req.body, qr_key);
+    try{        
+        const data = await Insert(req.body);
 
-        if(data.rowCount < 1){
+        if(data[0] < 1){
             res.status(204).send({'Error':'Não foi possivel cadastrar'});
         }else{
             res.status(201).send({'Sucesso':'Cadastrado com sucesso'});
-            Send_whatsapp(req.body['phone'], qr_key);
+            Send_whatsapp(req.body['phone'], data[1]);
         }
     }catch(err){
         console.log(err)

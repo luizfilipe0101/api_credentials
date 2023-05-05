@@ -8,22 +8,23 @@ const {Crypt} = require('../controllers/encrypt');
 const {Send_whatsapp} = require('../controllers/whatsapp_bot');
 
 
-const sql_insert = "INSERT INTO participantes(name, cpf, email, phone, gender, city,\
-    state, payment, code, presence) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);";
+async function Insert(data){
 
+    const sql_insert = "INSERT INTO participantes(name, cpf, email, phone, city,\
+        state, gender, age, occupation, code) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);";
 
-async function Insert(data, qr_key){
+    const qr_key = Crypt(data['cpf']);
     
     return new Promise((resolv, reject)=>{
         site_pool.query(sql_insert, [data['name'], data['cpf'], data['email'],
-        '55'+data['phone'], data['gender'],data['city'], data['state'], 'Pendente', 
-        qr_key, 'Ausente'], 
+        '55'+data['phone'], data['city'],data['state'], data['gender'], data['age'],
+        data['occupation'], qr_key], 
 
         (err, result)=>{
             if(err){
                 reject(err);
             }else{
-                resolv(result.rowCount);
+                resolv([result.rowCount, qr_key]);
             }
         })
     })
