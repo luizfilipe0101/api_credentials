@@ -11,6 +11,11 @@ const HOST = process.env.DB_HOST;
 const PORT = process.env.DB_PORT;
 const DATABASE = process.env.DATABASE;
 
+
+/*
+    Usuário do banco exclusivo para fazer
+    requisições
+*/
 const pool = new Pool({
     user: user_api,
     password: passwd_api,

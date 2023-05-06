@@ -5,16 +5,16 @@
 const { pool } = require('./connect_db');
 
 
-const sql_update = "UPDATE participantes SET presence = 'Presente' WHERE cpf = $1;";
+const sql_update = "UPDATE participantes SET presence = 'Presente' WHERE code = $1;";
 
-async function Checkin(cpf){
+async function Checkin(data){
     return new Promise((resolv, reject)=>{
-        pool.query(sql_update, [cpf['cpf']], (err, result)=>{
+        pool.query(sql_update, [data['code']], (err, result)=>{
             if(err){
                 console.error(err);
                 reject(err);
             }else{
-                resolv(result);
+                resolv(result.rowCount);
                
             }
         })

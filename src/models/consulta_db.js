@@ -18,12 +18,13 @@ async function GetAll_Model(){
 }
 
 
-async function QR_Model(code){
+async function QR_Model(data){
 
-    const sql_select_qr = 'SELECT * FROM participantes WHERE code = $1;';
+    const sql_select_qr = 'SELECT name, cpf, email, phone, payment\
+    FROM participantes WHERE code = $1;';
 
     return new Promise((resolv, reject)=>{
-        pool.query(sql_select_qr, [code['code']],(err, result)=>{
+        pool.query(sql_select_qr, [data],(err, result)=>{
             if(err){
                 reject(err);
             }else{
