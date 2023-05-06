@@ -2,18 +2,12 @@ const {pool} = require('./connect_db');
 
 
 async function GetAll_Model(){
+
     const sql_select = 'SELECT * FROM participantes;';
-    return new Promise((resolv, reject)=>{
-        pool.query(sql_select, null, (err, result)=>{
-            if(err){
-                console.log(err);
-                reject(err);
-            }else{
-                resolv(result.rows);
+    const result = await pool.query(sql_select, null);
+
+    return result;
     
-            }
-        }) 
-    })
     
 }
 
